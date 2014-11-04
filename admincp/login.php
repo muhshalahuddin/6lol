@@ -25,6 +25,8 @@ ob_start();
 <div class="container">
 <div class="maintitle">Login untuk masuk ke Admin Contol Panel</div>
 <?php
+
+
 $err=isset($_GET['error'])?$_GET['error']:""; 
 if($err=='error'){?>
 <div class="errormsgbox">Username atau Password salah. Silahkan coba lagi.</div>	
@@ -34,12 +36,15 @@ if(!isset($_SESSION['adminuser'])){
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
 // username and password sent from Form
-$adminuser=$db->quote($_POST['adminuser']); 
-$adminpassword=$db->quote($_POST['adminpassword']); 
-$gpassword=md5($adminpassword); // Encrypted Password
+$adminuser=$db->quote($_POST['adminuser']);
+$adminpassword=$_POST['adminpassword'];
+$gpassword=$db->quote($adminpassword); // Encrypted Password
 
-if($sql= $db->prepare("SELECT id FROM admin WHERE adminuser='$adminuser' and adminpassword='$gpassword'")){
+$xsql = "SELECT `id` FROM `admin` WHERE `adminuser`=$adminuser and `adminpassword`=$gpassword";
 
+if($sql= $db->prepare($xsql)){
+
+	$sql->execute();
     $result = $sql->fetch();
 	$count=$sql->rowCount();
 

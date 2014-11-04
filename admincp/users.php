@@ -57,8 +57,9 @@ if ($DeleteAvotes= $mysqli->query("DELETE FROM an_votes WHERE uid='$del'")) {
 	   First get total number of rows in data table. 
 	   If you have a WHERE clause in your query, make sure you mirror it here.
 	*/
-	$query = $mysqli->query("SELECT COUNT(*) as num FROM users ORDER BY uid DESC");
-	$total_pages = mysqli_fetch_array($query);
+	$query = $db->prepare("SELECT COUNT(*) as num FROM users ORDER BY uid DESC");
+	$query->execute();
+	$total_pages = $query->fetch();
 	$total_pages = $total_pages['num'];
 	
 	/* Setup vars for query. */
@@ -72,7 +73,8 @@ if ($DeleteAvotes= $mysqli->query("DELETE FROM an_votes WHERE uid='$del'")) {
 	
 	/* Get data. */
 	$sql = "SELECT * FROM users ORDER BY uid DESC LIMIT $start, $limit";
-	$result = $mysqli->query($sql);
+	$result = $db->prepare($sql);
+	$result->execute();
 	
 	/* Setup page vars for display. */
 	if ($page == 0) $page = 1;					//if no page var is given, default to 1.
@@ -175,7 +177,7 @@ if ($DeleteAvotes= $mysqli->query("DELETE FROM an_votes WHERE uid='$del'")) {
  </thead>
 <tbody>
 	<?php
-		while($row = mysqli_fetch_array($result))
+		while($row = $result->fetch())
 		{
 			$avatar = $row['avatar'];
 			

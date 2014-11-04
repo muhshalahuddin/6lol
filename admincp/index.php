@@ -17,7 +17,7 @@
 if($TotPics = $db->prepare("SELECT id FROM media WHERE type=1 or type=2")){
 	$TotPics->execute();
 
-    $TpNum = $TotPics->num_rows;
+    $TpNum = $TotPics->rowCount();
   
 ?> 
      <td><?php echo $TpNum;?></td>
@@ -36,7 +36,7 @@ if($TotPics = $db->prepare("SELECT id FROM media WHERE type=1 or type=2")){
 <?php
 if($TaPics= $db->prepare("SELECT id FROM media WHERE type=1 or type=2 and active=1")){
 	$TaPics->execute();
-    $TaNum = $TaPics->num_rows;
+    $TaNum = $TaPics->rowCount();
 ?>     
 
 <td><?php echo $TaNum;?></td>
@@ -58,7 +58,7 @@ if($TaPics= $db->prepare("SELECT id FROM media WHERE type=1 or type=2 and active
 if($TpPics = $db->prepare("SELECT id FROM media WHERE active=0 and (type=1 or type=2)")){
 	$TpPics->execute();
 
-    $TpNum = $TpPics->num_rows;
+    $TpNum = $TpPics->rowCount();
 ?>      
     <td><?php echo $TpNum;?></td>
 <?php
@@ -90,7 +90,7 @@ if($TpPics = $db->prepare("SELECT id FROM media WHERE active=0 and (type=1 or ty
 if($TotVids = $db->prepare("SELECT id FROM media WHERE type=3")){
 	$TotVids->execute();
 
-    $TvNum = $TotVids->num_rows;
+    $TvNum = $TotVids->rowCount();
   
 ?>     
 	 <td><?php echo $TvNum;?></td>
@@ -110,7 +110,7 @@ if($TotVids = $db->prepare("SELECT id FROM media WHERE type=3")){
 if($TaVids = $db->prepare("SELECT id FROM media WHERE type=3 and active=1")){
 	$TaVids->execute();
 
-    $TvaNum = $TaVids->num_rows;
+    $TvaNum = $TaVids->rowCount();
   
 ?>      
     <td><?php echo $TvaNum;?></td>
@@ -131,7 +131,7 @@ if($TaVids = $db->prepare("SELECT id FROM media WHERE type=3 and active=1")){
 if($TpVids = $db->prepare("SELECT id FROM media WHERE type=3 and active=0")){
 	$TpVids->execute();
 
-    $TvpNum = $TpVids->num_rows;
+    $TvpNum = $TpVids->rowCount();
   
 ?>    
     <td><?php echo $TvpNum;?></td>

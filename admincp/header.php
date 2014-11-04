@@ -6,9 +6,9 @@ if(!isset($_SESSION['adminuser'])){
 include ('../db.php');
 
 if($SettingsSql = $db->prepare("SELECT * FROM settings WHERE id='1'")){
-	$SettingSql->execute();
+	$SettingsSql->execute();
 
-    $settings = $SettingSql->fetch();
+    $settings = $SettingsSql->fetch();
 	
 	$name=$settings['siteurl'];
 	

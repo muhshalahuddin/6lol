@@ -4,22 +4,22 @@
 $act=isset($_GET['act'])?$_GET['act']:"";
  
 if($act=='sub'){
-$name = $mysqli->escape_string($_POST['site']);
-$siteurl = $mysqli->escape_string($_POST['siteurl']);
-$keys = $mysqli->escape_string($_POST['keywords']);
-$desc = $mysqli->escape_string($_POST['descrp']);
-$email = $mysqli->escape_string($_POST['email']);
-$openin = $mysqli->escape_string($_POST['open-posts']);
-$fbapp = $mysqli->escape_string($_POST['fbapp']);
-$fbpage = $mysqli->escape_string($_POST['fbpage']);
-$twitter = $mysqli->escape_string($_POST['twitter']);
-$gplus = $mysqli->escape_string($_POST['gplus']);
-$active = $mysqli->escape_string($_POST['active']);
-$template = $mysqli->escape_string($_POST['template']);
+$name = $db->quote($_POST['site']);
+$siteurl = $db->quote($_POST['siteurl']);
+$keys = $db->quote($_POST['keywords']);
+$desc = $db->quote($_POST['descrp']);
+$email = $db->quote($_POST['email']);
+$openin = $db->quote($_POST['open-posts']);
+$fbapp = $db->quote($_POST['fbapp']);
+$fbpage = $db->quote($_POST['fbpage']);
+$twitter = $db->quote($_POST['twitter']);
+$gplus = $db->quote($_POST['gplus']);
+$active = $db->quote($_POST['active']);
+$template = $db->quote($_POST['template']);
 
 	
-$mysqli->query("UPDATE settings SET name='$name',siteurl='$siteurl',keywords='$keys',descrp='$desc',email='$email',open_posts='$openin',fbapp='$fbapp',fbpage='$fbpage',twitter='$twitter',gplus='$gplus',active='$active',template='$template' WHERE id=1");
-
+$UpdateSettings = $db->prepare("UPDATE settings SET name='$name',siteurl='$siteurl',keywords='$keys',descrp='$desc',email='$email',open_posts='$openin',fbapp='$fbapp',fbpage='$fbpage',twitter='$twitter',gplus='$gplus',active='$active',template='$template' WHERE id=1");
+$UpdateSettings->execute();
 if($_FILES["file"]["name"]!=''){
 	 	   move_uploaded_file($_FILES["file"]["tmp_name"], "../images/logo.png");
 	}?>
@@ -28,17 +28,16 @@ if($_FILES["file"]["name"]!=''){
 
 <?php } 
 
-if($SiteSettings = $mysqli->query("SELECT * FROM settings WHERE id='1'")){
+if($SiteSettings = $db->prepare("SELECT * FROM settings WHERE id='1'")){
 
-    $SettingsRow = mysqli_fetch_array($SiteSettings);
+    $SettingsRow = $SiteSettings->fetch();
 	
 	$name=$SettingsRow['siteurl'];
 
-    $SiteSettings->close();
 	
 }else{
     
-	 printf("Error: %s\n", $mysqli->error);
+	 printf("Error: %s\n", $db->error);
 }
 
 
