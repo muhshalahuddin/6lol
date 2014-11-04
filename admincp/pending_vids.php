@@ -8,7 +8,8 @@ $del = $_GET['del'];
 $delete = $_GET['delete'];
 if ($delete == 'yes'){
 //delete the data	
-$delete=$mysqli->query("DELETE FROM media WHERE id='$del'") or die(mysql_error());
+$delete=$db->prepare("DELETE FROM media WHERE id='$del'");
+$delete->execute();
 
 ?>  
 <div class="msg-ok">Post successfully deleted</div>
@@ -19,7 +20,8 @@ $app = $_GET['app'];
 $approved = $_GET['approved'];
 if ($approved == 'yes'){
 
-$mysqli->query("UPDATE media SET active='1' WHERE id='$app'");
+$UpdateMedia = $db->prepare("UPDATE media SET active='1' WHERE id='$app'");
+$UpdateMedia->prepare();
 
 ?>
 <div class="msg-ok">Post successfully updated</div>
@@ -37,8 +39,9 @@ $mysqli->query("UPDATE media SET active='1' WHERE id='$app'");
 	   First get total number of rows in data table. 
 	   If you have a WHERE clause in your query, make sure you mirror it here.
 	*/
-	$query = $mysqli->query("SELECT COUNT(*) as num FROM media WHERE type=3 and active=0 ORDER BY id DESC");
-	$total_pages = mysqli_fetch_array($query);
+	$query = $db->prepare("SELECT COUNT(*) as num FROM media WHERE type=3 and active=0 ORDER BY id DESC");
+	$query->prepare();
+	$total_pages = $query->fetch();
 	$total_pages = $total_pages['num'];
 	
 	/* Setup vars for query. */
@@ -51,7 +54,8 @@ $mysqli->query("UPDATE media SET active='1' WHERE id='$app'");
 		$start = 0;								//if no page var is given, set start to 0
 	
 	/* Get data. */
-	$result = $mysqli->query("SELECT * FROM media WHERE type=3 and active=0 ORDER BY id DESC LIMIT $start, $limit");
+	$result = $db->prepare("SELECT * FROM media WHERE type=3 and active=0 ORDER BY id DESC LIMIT $start, $limit");
+	$result->prepare();
 	
 	/* Setup page vars for display. */
 	if ($page == 0) $page = 1;					//if no page var is given, default to 1.
@@ -153,7 +157,7 @@ $mysqli->query("UPDATE media SET active='1' WHERE id='$app'");
 <tbody>
 	<?php
 	
-		while($row = mysqli_fetch_array($result))
+		while($row = $result->fetch())
 		{
 		$fpost = $row['feat'];
 		?>
@@ -174,9 +178,10 @@ $mysqli->query("UPDATE media SET active='1' WHERE id='$app'");
 </table> 
 <?=$pagination?>
 <?php
-$q = $mysqli->query("SELECT * FROM media WHERE type=3 and active=0 ORDER BY id desc LIMIT $start,$limit");
+$q = $db->prepare("SELECT * FROM media WHERE type=3 and active=0 ORDER BY id desc LIMIT $start,$limit");
+$q->prepare();
 
-	$numr = mysqli_num_rows($q);
+	$numr = $q->rowCount();
 	if ($numr==0)
 	{
 	echo '<div class="msg">There are no pending videos at the moment.</div>';

@@ -5,7 +5,7 @@ $act=isset($_GET['act'])?$_GET['act']:"";
  
 if($act=='sub'){
 	
-$privacy = $mysqli->escape_string($_POST['ptxt']);
+$privacy = $db->quote($_POST['ptxt']);
 	
 $mysqli->query("UPDATE pages SET page='$privacy' WHERE id=2");
 
@@ -15,8 +15,9 @@ $mysqli->query("UPDATE pages SET page='$privacy' WHERE id=2");
 
 <?php }
 
-$q=$mysqli->query("select * from pages where id=2");
-$s=mysqli_fetch_assoc($q);
+$q=$db->prepare("select * from pages where id=2");
+$q->execute();
+$s=$q->fetch();
 ?>
 <div class="box">
 <div class="inbox">

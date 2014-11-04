@@ -17,7 +17,7 @@ $UpdatePage->execute();
 
 $q=$db->prepare("select * from pages where id=4");
 $q->execute();
-$s=$q->fetchAll();
+$s=$q->fetch();
 ?>
 <div class="box">
 <div class="inbox">

@@ -8,8 +8,6 @@ if($squ = $db->prepare("SELECT * FROM settings WHERE id='1'")){
 
     $settings = $squ->fetch();
 	
-	$squ->close();
-	
 }else{
     
 	 printf("Error: %s\n", $db->error);
@@ -224,7 +222,7 @@ $DeleteVotes->execute();
 <?=$pagination?>
 <?php
 $q = $db->prepare("SELECT * FROM comments");
-$q->execute()
+$q->execute();
 
 	$numr = $q->rowCount();
 	if ($numr==0)

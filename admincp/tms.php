@@ -5,18 +5,19 @@ $act=isset($_GET['act'])?$_GET['act']:"";
  
 if($act=='sub'){
 	
-$tms = $mysqli->escape_string($_POST['ptxt']);
+$tms = $db->quote($_POST['ptxt']);
 	
-$mysqli->query("UPDATE pages SET page='$tms' WHERE id=3");
-
+$UpdatePage=$db->prepare("UPDATE pages SET page='$tms' WHERE id=3");
+$UpdatePage->execute();
 ?>
     
 <div class="msg-ok">Terms of Use Page updated successfully.</div>  
 
 <?php }
 
-$q=$mysqli->query("select * from pages where id=3");
-$s=mysqli_fetch_assoc($q);
+$q=$db->prepare("select * from pages where id=3");
+$q->execute();
+$s=$q->fetch();
 ?>
 <div class="box">
 <div class="inbox">

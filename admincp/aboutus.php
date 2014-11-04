@@ -19,7 +19,7 @@ $UpdateAboutUsSql->execute();
 $q = $db->prepare("select * from pages where id=1");
 $q->execute();
 
-$s = $q->fetchAll(PDO::FETCH_ASSOC);
+$s = $q->fetch();
 ?>
 <div class="box">
 <div class="inbox">

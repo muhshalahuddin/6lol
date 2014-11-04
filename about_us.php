@@ -11,7 +11,7 @@
 if($PageSql = $db->prepare("SELECT * FROM  pages WHERE id='1'")){
 	$PageSql->execute();
 
-    $PageRow = $Page->fetch($PageSql);
+    $PageRow = $PageSql->fetch();
 	
 ?>
 

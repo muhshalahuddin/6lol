@@ -20,7 +20,7 @@ $UpdateSiteadSql->execute();
 if($Sql = $db->prepare("SELECT * FROM siteads WHERE id=1")){
 	$Sql->execute();
 	
-    $Row = $sql->fetch();
+    $Row = $Sql->fetch();
 	
 }else{
     
