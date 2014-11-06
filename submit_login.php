@@ -21,14 +21,14 @@ if($_POST)
 {	
 	
 	$username =	$db->quote($_POST['username']); 
-	$password = $db->quote($_POST['password']);
+	$password = $_POST['password'];
 	$gpassword=md5($password);
 	
-	if($UserCheck = $db->prepare("SELECT * FROM users WHERE username ='$username' and password ='$gpassword'")){
-		$UserCheck->execute();
-
-   	$VdUser = $UserCheck->fetch();
+	$xsql="SELECT `*` FROM `users` WHERE `username` ='$username' and `password` ='$gpassword'";
+	if($UserCheck = $db->prepare($xsql)){
 	
+	$UserCheck->execute();
+   	$VdUser = $UserCheck->fetch();
 	$Count= $UserCheck->rowCount();
    
 	}else{
@@ -41,7 +41,7 @@ if($_POST)
 	{
 		//required variables are empty
 		$_SESSION["username"] = $username;
-		//header("location:index.html");
+		//header("location:index.php");
 ?>
 <script type="text/javascript">
 function leave() {
