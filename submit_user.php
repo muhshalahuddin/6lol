@@ -12,7 +12,7 @@ if($_POST)
 	
 	$UN = $db->quote($_POST['uName']);
 	
-	if($UserCheck = $db->prepare("SELECT * FROM users WHERE username ='$UN'")){
+	if($UserCheck = $db->prepare("SELECT * FROM users WHERE username =$UN")){
 		$UserCheck->execute();
 
    	$VdUser = $UserCheck->fetch();
@@ -94,11 +94,9 @@ if($_POST)
 	$About				= "My Funny Collection";
 	$RegDate		    = date("F j, Y"); //date
 	
-	
-		
 // Insert info into database table.. do w.e!
-		$InsertInfoUserSql = $db->prepare("INSERT INTO users(username, email, country, password, about, reg_date) VALUES ('$UserName', '$Email', '$Country', '$EnPassword','$About	','$RegDate')");
-		$InsertInfoUserSq->execute();
+$InsertInfoUserSql = $db->prepare("INSERT INTO users(username, email, country, password, about, reg_date) VALUES ('".$UserName."','".$Email."','".$Country."','".$EnPassword."','".$About."','".$RegDate."')");
+$InsertInfoUserSql->execute();
 ?>
 <script type="text/javascript">
 function leave() {
