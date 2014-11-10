@@ -24,7 +24,7 @@ if($_POST)
 	$password = $_POST['password'];
 	$gpassword=md5($password);
 	
-	$xsql="SELECT `*` FROM `users` WHERE `username` ='$username' and `password` ='$gpassword'";
+	$xsql="SELECT * FROM `users` WHERE `username` =$username and `password` ='$gpassword'";
 	if($UserCheck = $db->prepare($xsql)){
 	
 	$UserCheck->execute();

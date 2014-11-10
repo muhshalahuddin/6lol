@@ -22,7 +22,7 @@ if($SettingsSql = $db->prepare("SELECT * FROM settings WHERE id='1'")){
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title><?php echo $pageTitle;?><?php echo $settings['name']; ?></title>
+<title>Admin Cp | <?php echo $settings['name']; ?></title>
 <link href="css/style.css" rel="stylesheet" type="text/css">
 <link href="css/colorbox.css" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz' rel='stylesheet' type='text/css'>

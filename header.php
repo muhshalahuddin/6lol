@@ -28,10 +28,10 @@ if(!isset($_SESSION['username'])){
 	
 $Uname = $_SESSION['username'];
 
-if($UserSql = $db->prepare("SELECT * FROM users WHERE username='$Uname'")){
+if($UserSql = $db->prepare("SELECT * FROM `users` WHERE `username`=$Uname")){
 	$UserSql->execute();
 
-    $UserRow = fetch($UserSql);
+    $UserRow = $UserSql->fetch();
 	
 	$UsName = strtolower($UserRow['username']);
 

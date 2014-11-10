@@ -88,7 +88,7 @@ function afterSuccess()
 if($Profile = $db->prepare("SELECT * FROM users WHERE uid='$Uid'")){
 	$Profile->execute();
 
-    $ProfileRow = $profile->fetch();
+    $ProfileRow = $Profile->fetch();
 	
 	$Gender = $ProfileRow['gender'];
 	

@@ -48,8 +48,8 @@ return false;
 
 <?php
 
-if($LatestSql = $db->prepare("SELECT * FROM media WHERE active=1 ORDER BY time_viewed DESC LIMIT 0, 10")){
-	$LatesSql->execute();
+if($LatestSql = $db->prepare("SELECT * FROM `media` WHERE `active`=1 ORDER BY time_viewed DESC LIMIT 0, 10")){
+	$LatestSql->execute();
 	
 
 while ($LatestRow = $LatestSql->fetch()){

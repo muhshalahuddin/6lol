@@ -24,10 +24,10 @@ if(!isset($_SESSION['username'])){
 	
 $Uname = $_SESSION['username'];
 
-if($UserSql = $db->prepare("SELECT * FROM users WHERE username='$Uname'")){
+if($UserSql = $db->prepare("SELECT * FROM `users` WHERE `username`=$Uname")){
 	$UserSql->execute();
 
-    $UserRow = $userSql->fetch();
+    $UserRow = $UserSql->fetch();
 	
 	$UsName = strtolower($UserRow['username']);
 
@@ -36,8 +36,6 @@ if($UserSql = $db->prepare("SELECT * FROM users WHERE username='$Uname'")){
 	$UserEmail = $UserRow['email'];
 	
 	$Uavatar = $UserRow['avatar'];
-
-    $UserSql->close();
 	
 }else{
      
@@ -100,10 +98,10 @@ function afterSuccess()
     <select name="catagory-select" id="catagory-select">
       <option value="">Select a Category</option>
       <?php
-if($CatSelect = $db->prepare("SELECT id, cname FROM categories")){
+if($CatSelect = $db->prepare("SELECT `id`, `cname` FROM `categories`")){
 	$CatSelect->execute();
 
-    while($CatsRow = $catSelect->fetch()){
+    while($CatsRow = $CatSelect->fetch()){
 				
 ?>
       <option value="<?php echo $CatsRow['id'];?>"><?php echo $CatsRow['cname'];?></option>
