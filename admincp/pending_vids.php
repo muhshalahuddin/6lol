@@ -40,7 +40,7 @@ $UpdateMedia->prepare();
 	   If you have a WHERE clause in your query, make sure you mirror it here.
 	*/
 	$query = $db->prepare("SELECT COUNT(*) as num FROM media WHERE type=3 and active=0 ORDER BY id DESC");
-	$query->prepare();
+	$query->execute();
 	$total_pages = $query->fetch();
 	$total_pages = $total_pages['num'];
 	
@@ -55,7 +55,7 @@ $UpdateMedia->prepare();
 	
 	/* Get data. */
 	$result = $db->prepare("SELECT * FROM media WHERE type=3 and active=0 ORDER BY id DESC LIMIT $start, $limit");
-	$result->prepare();
+	$result->execute();
 	
 	/* Setup page vars for display. */
 	if ($page == 0) $page = 1;					//if no page var is given, default to 1.
@@ -179,7 +179,7 @@ $UpdateMedia->prepare();
 <?=$pagination?>
 <?php
 $q = $db->prepare("SELECT * FROM media WHERE type=3 and active=0 ORDER BY id desc LIMIT $start,$limit");
-$q->prepare();
+$q->execute();
 
 	$numr = $q->rowCount();
 	if ($numr==0)
