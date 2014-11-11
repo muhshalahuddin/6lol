@@ -23,7 +23,7 @@ ob_start();
 </div>
 </header>
 <div class="container">
-<div class="maintitle">Login untuk masuk ke Admin Contol Panel</div>
+<div class="maintitle">Login untuk masuk ke Admin Control Panel</div>
 <?php
 
 
