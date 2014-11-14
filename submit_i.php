@@ -18,15 +18,12 @@ if($SettingsSql = $db->prepare("SELECT * FROM settings WHERE id='1'")){
 
 $Uname = $_SESSION['username'];
 
-if($UserSql = $db->prepare("SELECT * FROM users WHERE username='$Uname'")){
+if($UserSql = $db->prepare("SELECT * FROM users WHERE username=$Uname")){
 	$UserSql->execute();
 
     $UserRow = $UserSql->fetch();
-	
 	$UsName = strtolower($UserRow['username']);
-
 	$Uid = $UserRow['uid'];
-	
 }else{
      
 	 printf("Error: %s\n", $db->error);
@@ -34,7 +31,6 @@ if($UserSql = $db->prepare("SELECT * FROM users WHERE username='$Uname'")){
 }
 
 $UploadDirectory	= 'uploads/'; //Upload Directory, ends with slash & make sure folder exist
-
 
 if (!@file_exists($UploadDirectory)) {
 	//destination folder does not exist
@@ -108,7 +104,7 @@ if($_POST)
    {
 		
 // Insert info into database table.. do w.e!
-		$MediaInsertSql = $db->prepare("INSERT INTO media(title, image, type, catid, uid, date, active) VALUES ('$FileTitle','$NewFileName','$Type','$Catagory','$Uid','$Date','$Active')");
+		$MediaInsertSql = $db->prepare("INSERT INTO media(title, image, type, catid, uid, date, active) VALUES ($FileTitle,'$NewFileName',$Type,$Catagory,$Uid,'$Date',$Active)");
 		$MediaInsertSql->execute();
 
 ?>
@@ -128,7 +124,6 @@ $('.theForm').delay(1000).resetForm(1000);
    		die('<div class="msg-error">There seems to be a problem. please try again.</div>');
    }
 }
-
 //function outputs upload error messages, http://www.php.net/manual/en/features.file-upload.errors.php#90522
 function upload_errors($err_code) {
 	switch ($err_code) { 
