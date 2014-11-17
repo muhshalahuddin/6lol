@@ -19,7 +19,7 @@ if($SettingsSql = $db->prepare("SELECT * FROM settings WHERE id='1'")){
 
 $Uname = $_SESSION['username'];
 
-if($UserSql = $db->prepare("SELECT * FROM users WHERE username='$Uname'")){
+if($UserSql = $db->prepare("SELECT * FROM users WHERE username=$Uname")){
 	$UserSql->execute();
 
     $UserRow = $UserSql->fetch();
@@ -104,7 +104,7 @@ if($_POST)
 	
 	$VideoType = 'vine.co';
 	
-	$VineEmbed = '<iframe class="vine-embed" src="https://vine.co/v/'.$Vid.'/embed/simple?audio=1" width="630" height="630" frameborder="0"></iframe><script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>';
+	$VineEmbed = base64_encode('<iframe class="vine-embed" src="https://vine.co/v/'.$Vid.'/embed/simple?audio=1" width="630" height="630" frameborder="0"></iframe><script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>');
 	//Insert Vines
 	
 	$VineInsertSql = $db->prepare("INSERT INTO media(title, image, video_type, vine_mp4, video_url, video_embed, type, catid, uid, date, active) VALUES ('$FileTitle','$VineImage','$VideoType','$VineURL','$SubmitURL','$VineEmbed','$Type','$Catagory','$Uid','$Date','$Active')");
@@ -122,7 +122,7 @@ $em = new media_embed($SubmitURL);
 	{
 		$SmallThumb = $em->get_thumb("medium");
 		$LargeThumb = $em->get_thumb("large");
-		$EmbedCode = $em->get_iframe();
+		$EmbedCode = base64_encode($em->get_iframe());
 					
 		
 	}
@@ -132,14 +132,18 @@ $em = new media_embed($SubmitURL);
 	}
 
 //URL info
-
 $parse = parse_url($SubmitURL);
-$host = $parse['host'];
+$host = $parse['path'];
 $host = str_replace ('www.','', $host);
 
 			
 //Insert other videos
-		$VideoInsertSql = $db->prepare("INSERT INTO media(title, image, thumb, video_type, video_url, video_embed, type, catid, uid, date, active) VALUES ('$FileTitle','$LargeThumb','$SmallThumb','$host','$SubmitURL','$EmbedCode','$Type','$Catagory','$Uid','$Date','$Active')");
+$sql = 'INSERT INTO media 
+(`title`, `image`, `thumb`, `video_type`, `video_url`, `video_embed`, `type`, `catid`, `uid`, `date`, `active`)
+ VALUES 
+ ("'.$FileTitle.'","'.$LargeThumb.'","'.$SmallThumb.'","'.$host.'","'.$SubmitURL.'","'.$EmbedCode.'","'.$Type.'","'.$Catagory.'","'.$Uid.'","'.$Date.'","'.$Active.'")';
+//echo $sql; exit();
+		$VideoInsertSql = $db->prepare($sql);
 		$VideoInsertSql->execute();
 
 }//vine end		
