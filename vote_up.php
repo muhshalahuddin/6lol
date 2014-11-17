@@ -4,14 +4,14 @@ include("db.php");
 
 $id=$_POST['id'];
 
-$id = $mysqli->real_escape_string($id);
+$id = $db->quote($id);
 
 if(!isset($_SESSION['username'])){
 ?>
 
 <script>
 $(document).ready(function(){
-	$.colorbox({href:"login.html"});
+	$.colorbox({href:"login.php"});
 })
 </script>
 
@@ -20,17 +20,16 @@ $(document).ready(function(){
 	
 $Uname = $_SESSION['username'];
 
-if($UserSql = $mysqli->query("SELECT * FROM users WHERE username='$Uname'")){
+if($UserSql = $db->prepare("SELECT * FROM users WHERE username=$Uname")){
+	$UserSql->execute();
 
-    $UserRow = mysqli_fetch_array($UserSql);
+    $UserRow = $UserSql->fetch();
 
 	$Uid = $UserRow['uid'];
 	
-	$UserSql->close();
-	
 }else{
      
-	 printf("Error: %s\n", $mysqli->error);
+	 printf("Error: %s\n", $db->error);
 	 
 }
 
@@ -41,29 +40,36 @@ $ip=$_SERVER['REMOTE_ADDR'];
 if($_POST['id'])
 {
 
-$CheckIp = $mysqli->query("SELECT * FROM voteip WHERE media_id='$id' AND uid='$Uid'");
-$VoteType = mysqli_fetch_array($CheckIp);
+$CheckIp = $db->prepare("SELECT * FROM voteip WHERE media_id=$id AND uid=$Uid");
+$CheckIp->execute();
+$VoteType = $CheckIp->fetch();
 
 $Vote = $VoteType['type'];
 
-$Count = mysqli_num_rows($CheckIp);
+$Count = $CheckIp->rowCount();
 
 if($Count==0)
 {
-	$Sql = $mysqli->query("UPDATE media SET votes=votes+1 WHERE id='$id'");
-	$SqlIn = $mysqli->query("INSERT INTO voteip (media_id,ip,uid,type) VALUES ('$id','$ip','$Uid','1')");
+	$Sql = $db->prepare("UPDATE media SET votes=votes+1 WHERE id=$id");
+	$Sql->execute();
+	$SqlIn = $db->prepare("INSERT INTO voteip (media_id,ip,uid,type) VALUES ($id,'$ip',$Uid,1)");
+	$SqlIn->execute();
 
 }else{
 //Get vote up or down
 
 if ($Vote==1){
 	
-	$RemoveVote	= $mysqli->query("UPDATE media SET votes=votes-1 WHERE id='$id'");
-	$DeleteVote = $mysqli->query("DELETE FROM voteip WHERE media_id='$id'");
+	$RemoveVote	= $db->prepare("UPDATE media SET votes=votes-1 WHERE id=$id");
+	$RemoveVote->execute();
+	$DeleteVote = $db->prepare("DELETE FROM voteip WHERE media_id=$id");
+	$DeleteVote->execute();
 	
 } elseif ($Vote==2){
-	$AddVote = $mysqli->query("UPDATE media SET votes=votes+1 WHERE id='$id'");
-	$UpdateVote = $mysqli->query("UPDATE voteip SET type='1' WHERE media_id='$id'");
+	$AddVote = $db->prepare("UPDATE media SET votes=votes+1 WHERE id=$id");
+	$AddVote->execute();
+	$UpdateVote = $db->prepare("UPDATE voteip SET type='1' WHERE media_id=$id");
+	$UpdateVote->execute();
 	
 }
 
@@ -74,8 +80,9 @@ if ($Vote==1){
 
 }
 
-$result=$mysqli->query("SELECT votes FROM media WHERE id='$id'");
-$row=mysqli_fetch_array($result);
+$result=$db->prepare("SELECT votes FROM media WHERE id=$id");
+$result->execute();
+$row=$result->fetch();
 
 echo $row['votes'];
 ?>
