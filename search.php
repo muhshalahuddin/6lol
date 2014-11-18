@@ -2,7 +2,7 @@
 
 $term = $db->quote($_GET['term']);
 
-if($CountPosts = $db->prepare("SELECT * FROM media WHERE (title LIKE '%$term%') AND active=1")){
+if($CountPosts = $db->prepare("SELECT * FROM media WHERE (title LIKE '%'$term'%') AND active=1")){
 	$CountPosts->execute();
 
 $RowCount = $CountPosts->fetch();
@@ -20,7 +20,7 @@ $RowCount = $CountPosts->fetch();
 
 <?php
 
-if($LatestSql = $db->prepare("SELECT * FROM media WHERE (title LIKE '%$term%') AND active=1 ORDER BY id DESC LIMIT 0, 10")){
+if($LatestSql = $db->prepare("SELECT * FROM media WHERE (title LIKE '%'$term'%') AND active=1 ORDER BY id DESC LIMIT 0, 10")){
 	$LatestSql->execute();
 
 while ($LatestRow = $LatestSql->fetch()){
